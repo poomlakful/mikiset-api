@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <!-- Define a traditional camel context here -->
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <route id="simple-route">
+            <from uri="timer:set-retriever?period=5000"/>
+            <log message="[Scheduler] retrieve: https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&amp;country=US"/>
+            <setBody>
+                <method bean="readWeb" method="readFromWeb('https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&amp;country=US')"/>
+            </setBody>
+            <!--<to uri="xslt:file:xslt/transform.xsl"/>-->
+            <log message="[Scheduler] transform body: ${body}"/>
+
+        </route>
+    </camelContext>
+
+    <bean id="readWeb" class="com.poomdev.mikisetapi.util.ReadWeb"/>
+
+</beans>
