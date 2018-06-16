@@ -6,7 +6,7 @@
     <groupId>com.poomdev</groupId>
     <artifactId>mikiset-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>mikiset-api</name>
     <description>Demo project for Spring Boot</description>
@@ -86,12 +86,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.appengine</groupId>
-            <artifactId>appengine-maven-plugin</artifactId>
-            <version>1.9.64</version>
         </dependency>
 
         <!-- Test -->
