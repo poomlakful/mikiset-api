@@ -3,6 +3,8 @@ package com.poomdev.mikisetapi.controller;
 import com.poomdev.mikisetapi.persistence.SetIndex;
 import com.poomdev.mikisetapi.persistence.repository.SetIndexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,14 +24,14 @@ public class SetController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public SetIndex getUpdateIndex(@RequestBody SetIndex requestBody) {
+    public ResponseEntity<String> updateIndex(@RequestBody SetIndex requestBody) {
         SetIndex response = repository.findByNameAndDate(requestBody.getName(), requestBody.getDate());
         if(response == null) {
-            return null;
+            return new ResponseEntity<>(String.format("Data not found in DB for index: [%s] date: [%s]", requestBody.getName(), requestBody.getDate().toString()), HttpStatus.BAD_REQUEST);
         }
         response.setLast(requestBody.getLast());
         response = repository.save(response);
-        return response;
+        return new ResponseEntity<>("Updated", HttpStatus.OK);
     }
 
 }
