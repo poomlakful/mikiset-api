@@ -10,7 +10,7 @@
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 
         <route id="retriever">
-            <from uri="timer:set-retriever?fixedRate=true&amp;period=5s"/>
+            <from uri="timer:set-retriever?fixedRate=true&amp;period={{retriever.schedule.period}}"/>
             <log message="[Scheduler] retrieve: https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&amp;country=US"/>
             <process ref="extractSetIndexDataProcessor"/>
         </route>

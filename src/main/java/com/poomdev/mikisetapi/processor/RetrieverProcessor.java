@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.Date;
@@ -18,12 +19,15 @@ import java.util.Date;
 public class RetrieverProcessor implements Processor {
     private Logger logger = LoggerFactory.getLogger(RetrieverProcessor.class);
 
+    @Value("${retriever.url}")
+    private String url;
+
     @Autowired
     private SetIndexRepository repository;
 
     @Override
     public void process(Exchange exchange) throws IOException {
-        Document doc = Jsoup.connect("https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&country=US").get();
+        Document doc = Jsoup.connect(url).get();
         Elements tBodyList = doc.getElementById("maincontent").getElementsByTag("tbody");
         Elements trList = tBodyList.get(0).getElementsByTag("tr");
         for (Element tr: trList) {

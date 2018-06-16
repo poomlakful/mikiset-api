@@ -1,6 +1,11 @@
 application:
   version: @project.version@
 
+retriever:
+  url: https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&country=US
+  schedule:
+    period: 5s
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
