@@ -8,18 +8,15 @@
 
     <!-- Define a traditional camel context here -->
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-        <route id="simple-route">
-            <from uri="timer:set-retriever?period=5000"/>
-            <log message="[Scheduler] retrieve: https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&amp;country=US"/>
-            <setBody>
-                <method bean="readWeb" method="readFromWeb('https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&amp;country=US')"/>
-            </setBody>
-            <!--<to uri="xslt:file:xslt/transform.xsl"/>-->
-            <log message="[Scheduler] transform body: ${body}"/>
 
+        <route id="retriever">
+            <from uri="timer:set-retriever?fixedRate=true&amp;period=5s"/>
+            <log message="[Scheduler] retrieve: https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&amp;country=US"/>
+            <process ref="extractSetIndexDataProcessor"/>
         </route>
+
     </camelContext>
 
-    <bean id="readWeb" class="com.poomdev.mikisetapi.util.ReadWeb"/>
+    <bean id="extractSetIndexDataProcessor" class="com.poomdev.mikisetapi.processor.RetrieverProcessor"/>
 
 </beans>
