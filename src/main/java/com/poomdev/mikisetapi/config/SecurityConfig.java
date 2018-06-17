@@ -1,5 +1,6 @@
 package com.poomdev.mikisetapi.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,11 +18,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${admin.password}")
+    private String password;
+
     @Bean
     InMemoryUserDetailsManager userDetailsManager() {
 
         User.UserBuilder builder = User.withDefaultPasswordEncoder();
-        UserDetails admin = builder.username("admin").password("admin").roles("USER", "ADMIN").build();
+        UserDetails admin = builder.username("admin").password(password).roles("USER", "ADMIN").build();
 
         return new InMemoryUserDetailsManager(admin);
     }

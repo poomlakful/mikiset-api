@@ -6,9 +6,13 @@ retriever:
   schedule:
     period: 5m
 
+admin:
+  password: admin
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
+#    url: @sqlURL@ #for use gcloud SQL
     username: postgres
     password: example
     driverClassName: org.postgresql.Driver
