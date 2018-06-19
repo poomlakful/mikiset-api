@@ -4,7 +4,7 @@ application:
 retriever:
   url: https://marketdata.set.or.th/mkt/sectorialindices.do?language=en&country=US
   schedule:
-    period: 5m
+    period: 300000
 
 admin:
   password: admin

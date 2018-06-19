@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,14 +25,14 @@ public class SetController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> updateIndex(@RequestBody SetIndex requestBody) {
+    public String updateIndex(@RequestBody SetIndex requestBody) {
         SetIndex response = repository.findByNameAndDate(requestBody.getName(), requestBody.getDate());
         if(response == null) {
-            return new ResponseEntity<>(String.format("Data not found in DB for index: [%s] date: [%s]", requestBody.getName(), requestBody.getDate().toString()), HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Data not found in DB for index: [%s] date: [%s]", requestBody.getName(), requestBody.getDate().toString()));
         }
         response.setLast(requestBody.getLast());
-        response = repository.save(response);
-        return new ResponseEntity<>("Updated", HttpStatus.OK);
+        repository.save(response);
+        return "Updated";
     }
 
 }

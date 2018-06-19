@@ -16,6 +16,16 @@ public class SetIndex {
     private double last;
     private Date date;
 
+    public SetIndex() {
+
+    }
+
+    public SetIndex(String name, double last, Date date) {
+        this.name = name;
+        this.last = last;
+        this.date = date;
+    }
+
     @JsonIgnore
     public int getId() {
         return id;
